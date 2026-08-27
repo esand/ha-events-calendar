@@ -1,0 +1,300 @@
+# ------------------------------------------------------------------------------
+# LIGHTING EVENTS
+# ------------------------------------------------------------------------------
+lighting:
+  # Family Day: 3rd Monday in February
+  - name: "Family Day"
+    type: "relative"
+    month: 2
+    weekday: 0  # Monday
+    week_number: 3
+    offset_start_days: -3
+    offset_end_days: 1
+    priority: 1
+
+  # Valentine's Day: February 14th
+  - name: "Valentine's Day"
+    type: "fixed"
+    month: 2
+    day: 14
+    offset_start_days: -1
+    offset_end_days: 1
+    priority: 2
+
+  # St. Patrick's Day: Mar 17th
+  - name: "St. Patrick's Day"
+    type: "fixed"
+    month: 3
+    day: 17
+    offset_start_days: -1
+    offset_end_days: 1
+
+  # Easter Sunday: Good Friday to Easter Sunday
+  - name: "Easter"
+    type: "easter"
+    offset_start_days: -2
+    offset_end_days: 1
+
+  # Mother's Day: 2nd Sunday in May
+  - name: "Mother's Day"
+    type: "relative"
+    month: 5
+    weekday: 6  # Sunday
+    week_number: 2
+    offset_start_days: -1
+    offset_end_days: 1
+    priority: 2
+
+  # Victoria Day: Last Monday before May 25
+  - name: "Victoria Day"
+    type: "relative"
+    month: 5
+    weekday: 0  # Monday
+    week_number: -1
+    offset_start_days: -9
+    offset_end_days: -6
+    priority: 2
+
+  # EDS Awareness Month (May, all of it)
+  - name: "EDS Awareness Month"
+    type: "fixed"
+    month: 5
+    day: 1
+    offset_start_days: 0
+    offset_end_days: 31
+    priority: 1
+
+  # Father's Day: 3rd Sunday in June
+  - name: "Father's Day"
+    type: "relative"
+    month: 6
+    weekday: 6  # Sunday
+    week_number: 3
+    offset_start_days: -1
+    offset_end_days: 1
+
+  # St. Jean Baptiste Day: June 24th
+  - name: "St. Jean Baptiste Day"
+    type: "fixed"
+    month: 6
+    day: 24
+    offset_start_days: 0
+    offset_end_days: 0
+
+  # Canada Day: July 1st
+  - name: "Canada Day"
+    type: "fixed"
+    month: 7
+    day: 1
+    offset_start_days: -2
+    offset_end_days: 1
+
+  # Civic Holiday: 1st Monday in August
+  - name: "Civic Holiday"
+    type: "relative"
+    month: 8
+    weekday: 0  # Monday
+    week_number: 1
+    offset_start_days: -2
+    offset_end_days: 1
+
+  # Labour Day: 1st Monday in September
+  - name: "Labour Day"
+    type: "relative"
+    month: 9
+    weekday: 0  # Monday
+    week_number: 1
+    offset_start_days: -2
+    offset_end_days: 1
+
+  # National Day for Truth and Reconciliation: Sept 30th
+  - name: "Truth and Reconciliation"
+    type: "fixed"
+    month: 9
+    day: 30
+    offset_start_days: 0
+    offset_end_days: 0
+
+  # Thanksgiving (Canada): 2nd Monday in October
+  - name: "Thanksgiving"
+    type: "relative"
+    month: 10
+    weekday: 0  # Monday
+    week_number: 2
+    offset_start_days: -2
+    offset_end_days: 1
+    priority: 2
+
+  # Halloween: Oct 31st
+  - name: "Halloween"
+    type: "fixed"
+    month: 10
+    day: 31
+    offset_start_days: -30
+    offset_end_days: 1
+    priority: 1
+
+  # Remembrance Day: Nov 11th
+  - name: "Remembrance Day"
+    type: "fixed"
+    month: 11
+    day: 11
+    offset_start_days: 0
+    offset_end_days: 0
+
+  # Christmas Day: Dec 25th
+  - name: "Christmas"
+    type: "fixed"
+    month: 12
+    day: 25
+    offset_start_days: -24
+    offset_end_days: 3
+
+  # New Year's Eve: Dec 31st
+  - name: "New Year's Eve"
+    type: "fixed"
+    month: 12
+    day: 31
+    offset_start_days: -1
+    offset_end_days: 1
+
+# ------------------------------------------------------------------------------
+# HOLIDAYS
+# ------------------------------------------------------------------------------
+holidays:
+  - name: "New Year's Day"
+    type: "fixed"
+    month: 1
+    day: 1
+    observed: true
+
+  - name: "Family Day"
+    type: "relative"
+    month: 2
+    weekday: 0     # Monday
+    week_number: 3 # 3rd Monday of February
+
+  - name: "Valentine's Day"
+    type: "fixed"
+    month: 2
+    day: 14
+
+  - name: "Mardi Gras"
+    type: "easter"
+    offset_start_days: -47 # 47 days before Easter
+    offset_end_days: -47
+
+  - name: "St. Patrick's Day"
+    type: "fixed"
+    month: 3
+    day: 17
+
+  - name: "Good Friday"
+    type: "easter"
+    offset_start_days: -2 # Friday before Easter Sunday
+    offset_end_days: -2
+
+  - name: "Easter Sunday"
+    type: "easter"
+
+  - name: "Mother's Day"
+    type: "relative"
+    month: 5
+    weekday: 6     # Sunday
+    week_number: 2 # 2nd Sunday of May
+
+  - name: "Victoria Day"
+    type: "relative"
+    month: 5
+    weekday: 0      # Monday
+    week_number: -1 # Last Monday of May before 25th
+    offset_start_days: -7
+    offset_end_days: -7
+
+  - name: "Father's Day"
+    type: "relative"
+    month: 6
+    weekday: 6     # Sunday
+    week_number: 3 # 3rd Sunday of June
+
+  - name: "St. Jean Baptiste Day"
+    type: "fixed"
+    month: 6
+    day: 24
+    observed: true
+
+  - name: "Canada Day"
+    type: "fixed"
+    month: 7
+    day: 1
+    observed: true
+
+  - name: "Civic Holiday"
+    type: "relative"
+    month: 8
+    weekday: 0     # Monday
+    week_number: 1 # 1st Monday of August
+
+  - name: "Labour Day"
+    type: "relative"
+    month: 9
+    weekday: 0     # Monday
+    week_number: 1 # 1st Monday of September
+
+  - name: "Truth & Reconciliation Day"
+    type: "fixed"
+    month: 9
+    day: 30
+    observed: true
+
+  - name: "Thanksgiving"
+    type: "relative"
+    month: 10
+    weekday: 0     # Monday
+    week_number: 2 # 2nd Monday of October
+
+  - name: "Halloween"
+    type: "fixed"
+    month: 10
+    day: 31
+
+  - name: "Remembrance Day"
+    type: "fixed"
+    month: 11
+    day: 11
+    observed: true
+
+  - name: "Christmas Day"
+    type: "fixed"
+    month: 12
+    day: 25
+    observed: true
+
+  - name: "Boxing Day"
+    type: "fixed"
+    month: 12
+    day: 26
+    observed: true
+
+  - name: "New Year's Eve"
+    type: "fixed"
+    month: 12
+    day: 31
+
+# ------------------------------------------------------------------------------
+# BIRTHDAYS
+# ------------------------------------------------------------------------------
+birthdays:
+  - name: "John Candy's Birthday"
+    type: "fixed"
+    month: 10
+    day: 31
+
+# ------------------------------------------------------------------------------
+# HOME MAINTENANCE
+# ------------------------------------------------------------------------------
+maintenance:
+  - name: "HVAC Filter Change"
+    type: "fixed"
+    month: 3
+    day: 1
