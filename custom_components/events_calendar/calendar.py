@@ -22,7 +22,9 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up calendar entities based on enabled options."""
-    yaml_path = os.path.join(os.path.dirname(__file__), "events.yaml")
+    yaml_path = self.hass.config.path("events.yaml")
+    if not os.path.exists(yaml_path):
+        yaml_path = os.path.join(os.path.dirname(__file__), "events.yaml")
 
     try:
         raw_events = await hass.async_add_executor_job(load_yaml, yaml_path)

@@ -6,7 +6,7 @@ lighting:
   - name: "Family Day"
     type: "relative"
     month: 2
-    weekday: 0  # Monday
+    weekday: 0
     week_number: 3
     offset_start_days: -3
     offset_end_days: 1
@@ -39,7 +39,7 @@ lighting:
   - name: "Mother's Day"
     type: "relative"
     month: 5
-    weekday: 6  # Sunday
+    weekday: 6
     week_number: 2
     offset_start_days: -1
     offset_end_days: 1
@@ -49,7 +49,7 @@ lighting:
   - name: "Victoria Day"
     type: "relative"
     month: 5
-    weekday: 0  # Monday
+    weekday: 0
     week_number: -1
     offset_start_days: -9
     offset_end_days: -6
@@ -68,7 +68,7 @@ lighting:
   - name: "Father's Day"
     type: "relative"
     month: 6
-    weekday: 6  # Sunday
+    weekday: 6
     week_number: 3
     offset_start_days: -1
     offset_end_days: 1
@@ -93,7 +93,7 @@ lighting:
   - name: "Civic Holiday"
     type: "relative"
     month: 8
-    weekday: 0  # Monday
+    weekday: 0
     week_number: 1
     offset_start_days: -2
     offset_end_days: 1
@@ -102,7 +102,7 @@ lighting:
   - name: "Labour Day"
     type: "relative"
     month: 9
-    weekday: 0  # Monday
+    weekday: 0
     week_number: 1
     offset_start_days: -2
     offset_end_days: 1
@@ -119,7 +119,7 @@ lighting:
   - name: "Thanksgiving"
     type: "relative"
     month: 10
-    weekday: 0  # Monday
+    weekday: 0
     week_number: 2
     offset_start_days: -2
     offset_end_days: 1
