@@ -35,7 +35,7 @@ Designed specifically for holiday lighting, seasonal automations, and recurring 
 
 ## Configuration
 
-Create a file named `events.yaml` in your main Home Assistant config folder (`/config/events.yaml`). An example [events.yaml](events.yaml) is provided as well as a shorter example below.
+Create a file named `events.yaml` in your main Home Assistant config folder (`/config/events.yaml`). An example [events.yaml](custom_components/events_calendar/events.yaml) is provided as well as a shorter example below.
 
 ### Event Rule Parameters
 
