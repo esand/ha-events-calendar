@@ -35,7 +35,7 @@ Designed specifically for holiday lighting, seasonal automations, and recurring 
 
 ## Configuration
 
-Create a file named `events.yaml` in your main Home Assistant config folder (`/config/events.yaml`). An example [events.yaml](custom_components/events_calendar/events.yaml) is provided as well as a shorter example below.
+Create a file named `events.yaml` in your main Home Assistant config folder (`/config/events.yaml`). An example [events.yaml](custom_components/events_calendar/events.yaml) is provided and loaded by default.
 
 ### Event Rule Parameters
 
@@ -50,41 +50,20 @@ Create a file named `events.yaml` in your main Home Assistant config folder (`/c
 | `priority` | Integer | No | `0` | Higher priority wins when multiple events overlap on the same date. |
 | `offset_start_days` | Integer | No | `0` | Days to adjust event start date (negative starts earlier). |
 | `offset_end_days` | Integer | No | `0` | Days to adjust event end date (positive extends later). |
+| `span_weekend` | `boolean` | `false` | Automatically expands the start date to Saturday if the calculated start date falls on Sunday or Monday. |
+| `observed` | `boolean` | `false` | Generates a secondary "Observed" event on the next available weekday if the event falls on a weekend. |
 
 ---
 
-### Example `events.yaml`
+## Special Rules & Behavior
 
-```yaml
-lighting:
-  # Fixed Date (Single Day)
-  - name: "Canada Day"
-    type: "fixed"
-    month: 7
-    day: 1
+### Weekend Expansion (`span_weekend`)
+When `span_weekend: true` is enabled:
+* If the calculated event start date falls on a **Sunday**, the start date is pulled back 1 day to **Saturday**.
+* If the calculated event start date falls on a **Monday**, the start date is pulled back 2 days to **Saturday**.
+* If the start date falls on Tuesday through Saturday, no adjustment is made.
+* *Note:* `span_weekend` only modifies the event **start date** (ensuring light automation starts for the entire weekend); it does not alter the event end date.
 
-  # Month-Long Event (Low Priority)
-  - name: "Halloween"
-    type: "fixed"
-    month: 10
-    day: 31
-    priority: 1
-    offset_start_days: -30
-    offset_end_days: 0
-
-  # Relative Date: 2nd Monday of October (Thanksgiving in Canada)
-  # High Priority overrides Halloween on overlapping days
-  - name: "Thanksgiving"
-    type: "relative"
-    month: 10
-    weekday: 0         # Monday
-    week_number: 2     # 2nd Monday
-    priority: 10
-    offset_start_days: -1
-    offset_end_days: 0
-
-  # Easter Relative Event
-  - name: "Easter"
-    type: "easter"
-    offset_start_days: -2  # Starts Good Friday
-    offset_end_days: 1     # Ends Easter Monday
+### Sequential Observed Holidays (`observed`)
+When `observed: true` is set on a rule whose base date falls on a weekend (Saturday or Sunday), the integration generates an additional entry marked `(Observed)`:
+* **Sequential Bump Guard:** If consecutive weekend holidays occur (such as Christmas Day on Saturday, Dec 25, and Boxing Day on Sunday, Dec 26), the second holiday automatically bumps to the next available weekday so two observed holidays never occupy the same day.

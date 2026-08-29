@@ -119,6 +119,7 @@ class GroupCalendarEntity(CalendarEntity):
     def _calculate_events_for_year(self, year: int) -> list[tuple[str, date, date, int]]:
         """Calculate event start and end dates based on loaded rules."""
         events = []
+        observed_dates: set[date] = set()
 
         for rule in self._rules:
             try:
@@ -147,10 +148,14 @@ class GroupCalendarEntity(CalendarEntity):
                 if base_date:
                     event_start = base_date + timedelta(days=start_offset)
                     event_end = base_date + timedelta(days=end_offset)
+
+                    if rule.get("span_weekend"):
+                        event_start = expand_event_to_weekend(event_start)
+
                     events.append((name, event_start, event_end, priority))
 
                     if rule.get("observed") and base_date.weekday() in (5, 6):
-                        observed_date = get_observed_date(base_date)
+                        observed_date = get_observed_date(base_date, observed_dates)
                         if observed_date:
                             obs_start = observed_date + timedelta(days=start_offset)
                             obs_end = observed_date + timedelta(days=end_offset)

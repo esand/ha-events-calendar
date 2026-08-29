@@ -2,7 +2,6 @@
 # LIGHTING EVENTS
 # ------------------------------------------------------------------------------
 lighting:
-  # Family Day: 3rd Monday in February
   - name: "Family Day"
     type: "relative"
     month: 2
@@ -12,7 +11,6 @@ lighting:
     offset_end_days: 1
     priority: 1
 
-  # Valentine's Day: February 14th
   - name: "Valentine's Day"
     type: "fixed"
     month: 2
@@ -20,22 +18,21 @@ lighting:
     offset_start_days: -1
     offset_end_days: 1
     priority: 2
+    span_weekend: true
 
-  # St. Patrick's Day: Mar 17th
   - name: "St. Patrick's Day"
     type: "fixed"
     month: 3
     day: 17
     offset_start_days: -1
     offset_end_days: 1
+    span_weekend: true
 
-  # Easter Sunday: Good Friday to Easter Sunday
   - name: "Easter"
     type: "easter"
     offset_start_days: -2
     offset_end_days: 1
 
-  # Mother's Day: 2nd Sunday in May
   - name: "Mother's Day"
     type: "relative"
     month: 5
@@ -45,7 +42,6 @@ lighting:
     offset_end_days: 1
     priority: 2
 
-  # Victoria Day: Last Monday before May 25
   - name: "Victoria Day"
     type: "relative"
     month: 5
@@ -64,7 +60,6 @@ lighting:
     offset_end_days: 31
     priority: 1
 
-  # Father's Day: 3rd Sunday in June
   - name: "Father's Day"
     type: "relative"
     month: 6
@@ -73,23 +68,22 @@ lighting:
     offset_start_days: -1
     offset_end_days: 1
 
-  # St. Jean Baptiste Day: June 24th
   - name: "St. Jean Baptiste Day"
     type: "fixed"
     month: 6
     day: 24
     offset_start_days: 0
     offset_end_days: 0
+    span_weekend: true
 
-  # Canada Day: July 1st
   - name: "Canada Day"
     type: "fixed"
     month: 7
     day: 1
     offset_start_days: -2
     offset_end_days: 1
+    span_weekend: true
 
-  # Civic Holiday: 1st Monday in August
   - name: "Civic Holiday"
     type: "relative"
     month: 8
@@ -98,7 +92,6 @@ lighting:
     offset_start_days: -2
     offset_end_days: 1
 
-  # Labour Day: 1st Monday in September
   - name: "Labour Day"
     type: "relative"
     month: 9
@@ -107,15 +100,14 @@ lighting:
     offset_start_days: -2
     offset_end_days: 1
 
-  # National Day for Truth and Reconciliation: Sept 30th
   - name: "Truth and Reconciliation"
     type: "fixed"
     month: 9
     day: 30
     offset_start_days: 0
     offset_end_days: 0
+    span_weekend: true
 
-  # Thanksgiving (Canada): 2nd Monday in October
   - name: "Thanksgiving"
     type: "relative"
     month: 10
@@ -125,7 +117,6 @@ lighting:
     offset_end_days: 1
     priority: 2
 
-  # Halloween: Oct 31st
   - name: "Halloween"
     type: "fixed"
     month: 10
@@ -134,7 +125,6 @@ lighting:
     offset_end_days: 1
     priority: 1
 
-  # Remembrance Day: Nov 11th
   - name: "Remembrance Day"
     type: "fixed"
     month: 11
@@ -142,7 +132,6 @@ lighting:
     offset_start_days: 0
     offset_end_days: 0
 
-  # Christmas Day: Dec 25th
   - name: "Christmas"
     type: "fixed"
     month: 12
@@ -150,7 +139,6 @@ lighting:
     offset_start_days: -24
     offset_end_days: 3
 
-  # New Year's Eve: Dec 31st
   - name: "New Year's Eve"
     type: "fixed"
     month: 12
@@ -162,120 +150,141 @@ lighting:
 # HOLIDAYS
 # ------------------------------------------------------------------------------
 holidays:
+  # New Year's Day: Jan 1st
   - name: "New Year's Day"
     type: "fixed"
     month: 1
     day: 1
     observed: true
 
+  # Family Day: 3rd Monday in February
   - name: "Family Day"
     type: "relative"
     month: 2
-    weekday: 0     # Monday
-    week_number: 3 # 3rd Monday of February
+    weekday: 0
+    week_number: 3
 
+  # Valentine's Day: February 14th
   - name: "Valentine's Day"
     type: "fixed"
     month: 2
     day: 14
 
+  # Mardi Gras: 47 days before Easter Sunday
   - name: "Mardi Gras"
     type: "easter"
-    offset_start_days: -47 # 47 days before Easter
+    offset_start_days: -47
     offset_end_days: -47
 
+  # St. Patrick's Day: Mar 17th
   - name: "St. Patrick's Day"
     type: "fixed"
     month: 3
     day: 17
 
+  # Good Friday: The Friday before Easter Sunday
   - name: "Good Friday"
     type: "easter"
-    offset_start_days: -2 # Friday before Easter Sunday
+    offset_start_days: -2
     offset_end_days: -2
 
+  # Easter Sunday: First Sunday after the full moon on or after March 21
   - name: "Easter Sunday"
     type: "easter"
 
+  # Mother's Day: 2nd Sunday in May
   - name: "Mother's Day"
     type: "relative"
     month: 5
-    weekday: 6     # Sunday
-    week_number: 2 # 2nd Sunday of May
+    weekday: 6
+    week_number: 2
 
+  # Victoria Day: Last Monday before May 25
   - name: "Victoria Day"
     type: "relative"
     month: 5
-    weekday: 0      # Monday
-    week_number: -1 # Last Monday of May before 25th
+    weekday: 0
+    week_number: -1
     offset_start_days: -7
     offset_end_days: -7
 
+  # Father's Day: 3rd Sunday in June
   - name: "Father's Day"
     type: "relative"
     month: 6
-    weekday: 6     # Sunday
-    week_number: 3 # 3rd Sunday of June
+    weekday: 6
+    week_number: 3
 
+  # St. Jean Baptiste Day: June 24th
   - name: "St. Jean Baptiste Day"
     type: "fixed"
     month: 6
     day: 24
     observed: true
 
+  # Canada Day: July 1st
   - name: "Canada Day"
     type: "fixed"
     month: 7
     day: 1
     observed: true
 
+  # Civic Holiday: 1st Monday in August
   - name: "Civic Holiday"
     type: "relative"
     month: 8
-    weekday: 0     # Monday
-    week_number: 1 # 1st Monday of August
+    weekday: 0
+    week_number: 1
 
+  # Labour Day: 1st Monday in September
   - name: "Labour Day"
     type: "relative"
     month: 9
-    weekday: 0     # Monday
-    week_number: 1 # 1st Monday of September
+    weekday: 0
+    week_number: 1
 
+  # National Day for Truth and Reconciliation: Sept 30th
   - name: "Truth & Reconciliation Day"
     type: "fixed"
     month: 9
     day: 30
     observed: true
 
+  # Thanksgiving (Canada): 2nd Monday in October
   - name: "Thanksgiving"
     type: "relative"
     month: 10
-    weekday: 0     # Monday
-    week_number: 2 # 2nd Monday of October
+    weekday: 0
+    week_number: 2
 
+  # Halloween: Oct 31st
   - name: "Halloween"
     type: "fixed"
     month: 10
     day: 31
 
+  # Remembrance Day: Nov 11th
   - name: "Remembrance Day"
     type: "fixed"
     month: 11
     day: 11
     observed: true
 
+  # Christmas Day: Dec 25th
   - name: "Christmas Day"
     type: "fixed"
     month: 12
     day: 25
     observed: true
 
+  # Boxing Day: Dec 26th
   - name: "Boxing Day"
     type: "fixed"
     month: 12
     day: 26
     observed: true
 
+  # New Year's Eve: Dec 31st
   - name: "New Year's Eve"
     type: "fixed"
     month: 12

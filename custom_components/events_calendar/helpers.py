@@ -38,13 +38,33 @@ def get_relative_weekday(year: int, month: int, target_weekday: int, week_number
 
     return date(year, month, day)
 
-def get_observed_date(base_date: date) -> date | None:
-    """Returns the Monday observed date if base_date falls on a weekend."""
-    weekday = base_date.weekday()
+def get_observed_date(
+    base_date: date, existing_observed: set[date] | None = None
+) -> date | None:
+    """Calculate observed date for a weekend holiday, bumping past already occupied dates."""
+    if base_date.weekday() not in (5, 6):
+        return None
 
-    if weekday == 5:
-        return base_date + timedelta(days=2)
-    elif weekday == 6:
-        return base_date + timedelta(days=1)
+    if existing_observed is None:
+        existing_observed = set()
 
-    return None
+    if base_date.weekday() == 5:
+        target_date = base_date + timedelta(days=2)
+    else:
+        target_date = base_date + timedelta(days=1)
+
+    # Bump forward to next weekday if target_date is already an observed date
+    while target_date in existing_observed or target_date.weekday() in (5, 6):
+        target_date += timedelta(days=1)
+
+    existing_observed.add(target_date)
+    return target_date
+
+def expand_event_to_weekend(start_date: date) -> date:
+    """Expand event to cover the full weekend if it starts on Sunday, or Monday."""
+    if start_date.weekday() == 6:
+        return start_date - timedelta(days=1)
+    elif start_date.weekday() == 0:
+        return start_date - timedelta(days=2)
+
+    return start_date
