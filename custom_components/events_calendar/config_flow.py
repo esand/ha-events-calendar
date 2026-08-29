@@ -2,10 +2,12 @@
 from __future__ import annotations
 
 import logging
+from typing import Any
+
 import voluptuous as vol
 from homeassistant import config_entries
+from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.core import callback
-from homeassistant.data_entry_flow import FlowResult
 
 from .const import DOMAIN, EVENT_GROUPS
 
@@ -17,13 +19,15 @@ class EventCalendarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
 
-    async def async_step_user(self, user_input=None) -> FlowResult:
+    async def async_step_user(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
         """Handle initial creation step."""
         if user_input is not None:
             return self.async_create_entry(
                 title=user_input["instance_name"],
                 data=user_input,
-                options={key: default for key, (_, _, default) in EVENT_GROUPS.items()}
+                options={key: default for key, (_, _, default) in EVENT_GROUPS.items()},
             )
 
         schema = vol.Schema({
@@ -44,7 +48,9 @@ class EventCalendarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 class EventsCalendarOptionsFlowHandler(config_entries.OptionsFlow):
     """Handle configuration options (toggling event group calendars)."""
 
-    async def async_step_init(self, user_input=None) -> FlowResult:
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
         """Manage event group on/off toggles."""
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
@@ -52,11 +58,11 @@ class EventsCalendarOptionsFlowHandler(config_entries.OptionsFlow):
         options = self.config_entry.options
 
         schema_dict = {}
-        for key, (label, _, default_val) in EVENT_GROUPS.items():
+        for key, (_, _, default_val) in EVENT_GROUPS.items():
             current_val = options.get(key, default_val)
             schema_dict[vol.Optional(key, default=current_val)] = bool
 
         return self.async_show_form(
             step_id="init",
-            data_schema=vol.Schema(schema_dict)
+            data_schema=vol.Schema(schema_dict),
         )

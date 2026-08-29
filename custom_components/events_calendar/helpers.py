@@ -2,6 +2,7 @@
 import calendar as py_calendar
 from datetime import date, timedelta
 
+
 def get_easter_sunday(year: int) -> date:
     """Calculate Easter Sunday for a given year."""
     a = year % 19

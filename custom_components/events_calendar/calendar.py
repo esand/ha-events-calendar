@@ -1,16 +1,17 @@
 """Calendar platform for Events Calendar."""
-
-from datetime import date, datetime, timedelta
 import logging
 import os
+from datetime import date, datetime, timedelta
 
 from homeassistant.components.calendar import CalendarEntity, CalendarEvent
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.util.dt import now
 from homeassistant.util.yaml import load_yaml
 
-from .const import DOMAIN, EVENT_GROUPS
+from .const import EVENT_GROUPS
 from .helpers import *
 
 _LOGGER = logging.getLogger(__name__)
@@ -26,11 +27,13 @@ async def async_setup_entry(
     if not os.path.exists(yaml_path):
         yaml_path = os.path.join(os.path.dirname(__file__), "events.yaml")
 
+    raw_events: dict[str, list[dict]] = {}
     try:
-        raw_events = await hass.async_add_executor_job(load_yaml, yaml_path)
-    except Exception as err:
+        loaded = await hass.async_add_executor_job(load_yaml, yaml_path)
+        if isinstance(loaded, dict):
+            raw_events = loaded
+    except (HomeAssistantError, OSError) as err:
         _LOGGER.error("Failed to load events.yaml: %s", err)
-        raw_events = {}
 
     entities = []
     options = entry.options or entry.data
@@ -71,7 +74,7 @@ class GroupCalendarEntity(CalendarEntity):
     @property
     def event(self) -> CalendarEvent | None:
         """Return the current active event or next upcoming event."""
-        today = date.today()
+        today = now().date()
         events = self._calculate_events_for_year(today.year)
 
         # 1. Currently active sorted by priority
@@ -153,7 +156,7 @@ class GroupCalendarEntity(CalendarEntity):
                             obs_end = observed_date + timedelta(days=end_offset)
                             events.append((f"{name} (Observed)", obs_start, obs_end, priority))
 
-            except Exception as err:
+            except (KeyError, ValueError, TypeError) as err:
                 _LOGGER.error(
                     "Error evaluating event rule '%s': %s", rule.get("name"), err
                 )
