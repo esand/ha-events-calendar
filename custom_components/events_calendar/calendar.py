@@ -1,18 +1,16 @@
 """Calendar platform for Events Calendar."""
+
 import logging
-import os
 from datetime import date, datetime, timedelta
 
 from homeassistant.components.calendar import CalendarEntity, CalendarEvent
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util.dt import now
-from homeassistant.util.yaml import load_yaml
 
-from .const import EVENT_GROUPS
 from .helpers import *
+from .loader import async_load_events_yaml
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -22,30 +20,24 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up calendar entities based on enabled options."""
-    yaml_path = hass.config.path("events.yaml")
-    if not os.path.exists(yaml_path):
-        yaml_path = os.path.join(os.path.dirname(__file__), "events.yaml")
-
-    raw_events: dict[str, list[dict]] = {}
-    try:
-        loaded = await hass.async_add_executor_job(load_yaml, yaml_path)
-        if isinstance(loaded, dict):
-            raw_events = loaded
-    except (HomeAssistantError, OSError) as err:
-        _LOGGER.error("Failed to load events.yaml: %s", err)
-
+    """Set up calendar entities based on event groups."""
+    raw_data = await async_load_events_yaml(hass)
     entities = []
-    options = entry.options or entry.data
 
-    # Unpack 3 items per tuple: (group_title, group_type, default_enabled)
-    for opt_key, (group_title, group_type, default_enabled) in EVENT_GROUPS.items():
-        if options.get(opt_key, default_enabled):
-            rules = raw_events.get(group_type, [])
+    for group_key, group_config in raw_data.items():
+        if not isinstance(group_config, dict):
+            continue
+
+        if entry.options.get(group_key, True):
+            group_name = group_config.get("name", group_key.replace("_", " ").title())
+            group_icon = group_config.get("icon", "mdi:calendar")
+            rules = group_config.get("events", [])
+
             entities.append(
                 GroupCalendarEntity(
-                    group_title=group_title,
-                    group_type=group_type,
+                    group_key=group_key,
+                    group_name=group_name,
+                    icon=group_icon,
                     entry_id=entry.entry_id,
                     rules=rules,
                 )
@@ -59,16 +51,17 @@ class GroupCalendarEntity(CalendarEntity):
 
     def __init__(
         self,
-        group_title: str,
-        group_type: str,
+        group_key: str,
+        group_name: str,
+        icon: str,
         entry_id: str,
         rules: list[dict],
     ) -> None:
         """Initialize group calendar entity."""
-        self._attr_name = group_title
-        self._group_type = group_type
-        self._attr_unique_id = f"{entry_id}_{group_type}"
-        self._attr_translation_key = group_type  # Maps entity to icons.json
+        self._attr_name = group_name
+        self._attr_icon = icon
+        self._group_key = group_key
+        self._attr_unique_id = f"{entry_id}_{group_key}"
         self._rules = rules
 
     @property

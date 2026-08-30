@@ -14,13 +14,7 @@
     "step": {
       "init": {
         "title": "Manage active calendars",
-        "description": "Select which categories should generate calendar entities:",
-        "data": {
-          "enable_lighting": "Lighting",
-          "enable_holidays": "Holidays",
-          "enable_birthdays": "Birthdays",
-          "enable_maintenance": "Home Maintenance"
-        }
+        "description": "Select which categories should generate calendar entities:"
       }
     }
   }

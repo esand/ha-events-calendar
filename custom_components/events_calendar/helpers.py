@@ -1,4 +1,5 @@
 """Helper functions and custom date algorithms for Events Calendar."""
+
 import calendar as py_calendar
 from datetime import date, timedelta
 

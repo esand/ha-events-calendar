@@ -1,4 +1,5 @@
 """Config flow and Options flow for Events Calendar."""
+
 from __future__ import annotations
 
 import logging
@@ -9,10 +10,10 @@ from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.core import callback
 
-from .const import DOMAIN, EVENT_GROUPS
+from .loader import async_load_events_yaml
 
 _LOGGER = logging.getLogger(__name__)
-
+DOMAIN = "events_calendar"
 
 class EventCalendarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle initial setup flow."""
@@ -27,7 +28,6 @@ class EventCalendarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_create_entry(
                 title=user_input["instance_name"],
                 data=user_input,
-                options={key: default for key, (_, _, default) in EVENT_GROUPS.items()},
             )
 
         schema = vol.Schema({
@@ -55,12 +55,17 @@ class EventsCalendarOptionsFlowHandler(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
+        raw_data = await async_load_events_yaml(self.hass)
         options = self.config_entry.options
 
-        schema_dict = {}
-        for key, (_, _, default_val) in EVENT_GROUPS.items():
-            current_val = options.get(key, default_val)
-            schema_dict[vol.Optional(key, default=current_val)] = bool
+        schema_dict = {
+            vol.Optional(
+                group_key,
+                default=options.get(group_key, True),
+                description=group_config.get("name", group_key.replace("_", " ").title()),
+            ): bool
+            for group_key, group_config in raw_data.items()
+        }
 
         return self.async_show_form(
             step_id="init",
