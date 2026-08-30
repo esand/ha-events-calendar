@@ -10,10 +10,11 @@ from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.core import callback
 
+from .const import DOMAIN
 from .loader import async_load_events_yaml
 
 _LOGGER = logging.getLogger(__name__)
-DOMAIN = "events_calendar"
+
 
 class EventCalendarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle initial setup flow."""
