@@ -50,8 +50,8 @@ Create a file named `events.yaml` in your main Home Assistant config folder (`/c
 | `priority` | Integer | No | `0` | Higher priority wins when multiple events overlap on the same date. |
 | `offset_start_days` | Integer | No | `0` | Days to adjust event start date (negative starts earlier). |
 | `offset_end_days` | Integer | No | `0` | Days to adjust event end date (positive extends later). |
-| `span_weekend` | `boolean` | `false` | Automatically expands the start date to Saturday if the calculated start date falls on Sunday or Monday. |
-| `observed` | `boolean` | `false` | Generates a secondary "Observed" event on the next available weekday if the event falls on a weekend. |
+| `span_weekend` | Boolean | No | `False` | Automatically expands the start date to Saturday if the calculated start date falls on Sunday or Monday. |
+| `observed` | Boolean | No | `False` | Generates a secondary "Observed" event on the next available weekday if the event falls on a weekend. |
 
 ---
 
