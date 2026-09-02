@@ -1,4 +1,4 @@
-"""YAML loader for Events Calendar integration."""
+"""YAML loader for Events Calendar."""
 
 from __future__ import annotations
 

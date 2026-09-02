@@ -50,7 +50,7 @@ async def test_options_flow(hass: HomeAssistant):
         # Update options: disable lighting, enable holidays
         result2 = await hass.config_entries.options.async_configure(
             result["flow_id"],
-            user_input={"lighting": False, "holidays": True},
+            user_input={"enabled_groups": ["holidays"]},
         )
         assert result2["type"] == "create_entry"
         assert entry.options == {"lighting": False, "holidays": True}

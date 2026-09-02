@@ -14,7 +14,13 @@
     "step": {
       "init": {
         "title": "Manage active calendars",
-        "description": "Select which categories should generate calendar entities:"
+        "description": "Select which categories should generate calendar entities:",
+        "data": {
+          "enabled_groups": "Enabled Calendars"
+        },
+        "data_description": {
+          "enabled_groups": "Select which calendars should be available."
+        }
       }
     }
   }

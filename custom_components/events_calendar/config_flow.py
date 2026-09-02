@@ -1,4 +1,4 @@
-"""Config flow and Options flow for Events Calendar."""
+"""Config and Options flow for Events Calendar."""
 
 from __future__ import annotations
 
@@ -9,6 +9,12 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.core import callback
+from homeassistant.helpers.selector import (
+    SelectOptionDict,
+    SelectSelector,
+    SelectSelectorConfig,
+    SelectSelectorMode,
+)
 
 from .const import DOMAIN
 from .loader import async_load_events_yaml
@@ -53,19 +59,46 @@ class EventsCalendarOptionsFlowHandler(config_entries.OptionsFlow):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Manage event group on/off toggles."""
-        if user_input is not None:
-            return self.async_create_entry(title="", data=user_input)
-
         raw_data = await async_load_events_yaml(self.hass)
+
+        if user_input is not None:
+            selected_groups = set(user_input.get("enabled_groups", []))
+            new_options = {
+                group_key: (group_key in selected_groups)
+                for group_key in raw_data
+                if isinstance(raw_data[group_key], dict)
+            }
+            return self.async_create_entry(title="", data=new_options)
+
         options = self.config_entry.options
+
+        options_list = [
+            SelectOptionDict(
+                value=group_key,
+                label=group_config.get("name", group_key.replace("_", " ").title()),
+            )
+            for group_key, group_config in raw_data.items()
+            if isinstance(group_config, dict)
+        ]
+
+        currently_enabled = [
+            group_key
+            for group_key, group_config in raw_data.items()
+            if isinstance(group_config, dict)
+            and options.get(group_key, True)
+        ]
 
         schema_dict = {
             vol.Optional(
-                group_key,
-                default=options.get(group_key, True),
-                description=group_config.get("name", group_key.replace("_", " ").title()),
-            ): bool
-            for group_key, group_config in raw_data.items()
+                "enabled_groups",
+                default=currently_enabled,
+            ): SelectSelector(
+                SelectSelectorConfig(
+                    options=options_list,
+                    multiple=True,
+                    mode=SelectSelectorMode.LIST,
+                )
+            )
         }
 
         return self.async_show_form(

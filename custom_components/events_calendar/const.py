@@ -1,3 +1,3 @@
-"""Constants for the Events Calendar integration."""
+"""Constants for Events Calendar."""
 
 DOMAIN = "events_calendar"
