@@ -1,10 +1,14 @@
 {
   "domain": "events_calendar",
   "name": "Events Calendar",
-  "codeowners": [],
+  "codeowners": ["@esand"],
   "config_flow": true,
+  "dependencies": [],
   "documentation": "https://github.com/esand/ha-events-calendar",
+  "integration_type": "service",
   "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/esand/ha-events-calendar/issues",
   "requirements": [],
-  "version": "1.0.1"
+  "single_config_entry": true,
+  "version": "1.0.2"
 }

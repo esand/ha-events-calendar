@@ -38,7 +38,7 @@ class EventCalendarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
 
         schema = vol.Schema({
-            vol.Required("instance_name", default="Custom Events"): str,
+            vol.Required("instance_name", default="Events Calendar"): str,
         })
 
         return self.async_show_form(step_id="user", data_schema=schema)
@@ -53,12 +53,12 @@ class EventCalendarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class EventsCalendarOptionsFlowHandler(config_entries.OptionsFlow):
-    """Handle configuration options (toggling event group calendars)."""
+    """Handle configuration options (toggling calendars)."""
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Manage event group on/off toggles."""
+        """Manage calendar on/off toggles."""
         raw_data = await async_load_events_yaml(self.hass)
 
         if user_input is not None:
